@@ -42,6 +42,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.exoplayer2.ExoPlayer
@@ -83,7 +84,7 @@ fun SongLists(artistName: String, viewModel: SongLIstViewModel) {
     }
 }
 
-@SuppressLint("RememberReturnType")
+@SuppressLint("RememberReturnType", "DefaultLocale")
 @Composable
 fun SongCard(
     songTitle: String,
@@ -93,6 +94,10 @@ fun SongCard(
     viewModel: SongLIstViewModel,
 ){
     var isPlaying = viewModel.isPlaying.value
+    val minutes = duration.toInt() / 60
+    val seconds = duration.toInt() % 60
+
+    val formattedDuration = String.format("%02d : %02d", minutes, seconds)
 
     Card(
         modifier = Modifier
@@ -155,7 +160,7 @@ fun SongCard(
 
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = duration,
+                    text = formattedDuration,
                     fontSize = 14.sp,
                     color = Color.Gray
                 )
